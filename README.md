@@ -1,97 +1,131 @@
-# Tic-Tac-Toe
+# Currency Converter
 ```
-import java.util.Scanner;
+import javax.swing.*; 
+import java.awt.*; 
+import java.awt.event.*; 
+public class GFG { 
 
-public class TicTacToe {
-    private static char[][] board = new char[3][3];
-    private static char currentPlayer = 'X';
-    private static boolean gameWon = false;
+	// Function to convert from rupee 
+	// to the dollar and vice-versa 
+	// using Java Swing 
+	public static void converter() 
+	{ 
 
-    public static void main(String[] args) {
-        initializeBoard();
-        printBoard();
+		// Creating a new frame using JFrame 
+		JFrame f = new JFrame("CONVERTER"); 
 
-        while (!gameWon) {
-            makeMove();
-            printBoard();
-            checkForWin();
-            switchPlayer();
-        }
+		// Creating two labels 
+		JLabel l1, l2; 
 
-        if (gameWon) {
-            System.out.println("Player " + currentPlayer + " wins!");
-        } else {
-            System.out.println("It's a draw!");
-        }
-    }
+		// Creating two text fields. 
+		// One for rupee and one for 
+		// the dollar 
+		JTextField t1, t2; 
 
-    private static void initializeBoard() {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                board[row][col] = ' ';
-            }
-        }
-    }
+		// Creating three buttons 
+		JButton b1, b2, b3; 
 
-    private static void printBoard() {
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                System.out.print(board[row][col]);
-                if (col < 2) {
-                    System.out.print(" | ");
-                }
-            }
-            System.out.println();
-            if (row < 2) {
-                System.out.println("---------");
-            }
-        }
-    }
+		// Naming the labels and setting 
+		// the bounds for the labels 
+		l1 = new JLabel("Rupees:"); 
+		l1.setBounds(20, 40, 60, 30); 
+		l2 = new JLabel("Dollars:"); 
+		l2.setBounds(170, 40, 60, 30); 
 
-    private static void makeMove() {
-        Scanner scanner = new Scanner(System.in);
-        int row, col;
-        do {
-            System.out.print("Player " + currentPlayer + ", enter your row (0, 1, 2) and column (0, 1, 2): ");
-            row = scanner.nextInt();
-            col = scanner.nextInt();
-        } while (row < 0 || row > 2 || col < 0 || col > 2 || board[row][col] != ' ');
-        board[row][col] = currentPlayer;
-    }
+		// Initializing the text fields with 
+		// 0 by default and setting the 
+		// bounds for the text fields 
+		t1 = new JTextField("0"); 
+		t1.setBounds(80, 40, 50, 30); 
+		t2 = new JTextField("0"); 
+		t2.setBounds(240, 40, 50, 30); 
 
-    private static void checkForWin() {
-        // Check rows, columns, and diagonals for a win
-        for (int i = 0; i < 3; i++) {
-            if (board[i][0] == currentPlayer && board[i][1] == currentPlayer && board[i][2] == currentPlayer
-                    || board[0][i] == currentPlayer && board[1][i] == currentPlayer && board[2][i] == currentPlayer
-                    || board[0][0] == currentPlayer && board[1][1] == currentPlayer && board[2][2] == currentPlayer
-                    || board[0][2] == currentPlayer && board[1][1] == currentPlayer && board[2][0] == currentPlayer) {
-                gameWon = true;
-                return;
-            }
-        }
+		// Creating a button for INR, 
+		// one button for the dollar 
+		// and one button to close 
+		// and setting the bounds 
+		b1 = new JButton("INR"); 
+		b1.setBounds(50, 80, 60, 15); 
+		b2 = new JButton("Dollar"); 
+		b2.setBounds(190, 80, 60, 15); 
+		b3 = new JButton("close"); 
+		b3.setBounds(150, 150, 60, 30); 
 
-        // Check for a draw
-        boolean isFull = true;
-        for (int row = 0; row < 3; row++) {
-            for (int col = 0; col < 3; col++) {
-                if (board[row][col] == ' ') {
-                    isFull = false;
-                    break;
-                }
-            }
-        }
-        if (isFull) {
-            gameWon = true;
-        }
-    }
+		// Adding action listener 
+		b1.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) 
+			{ 
+				// Converting to double 
+				double d 
+					= Double.parseDouble(t1.getText()); 
 
-    private static void switchPlayer() {
-        if (currentPlayer == 'X') {
-            currentPlayer = 'O';
-        } else {
-            currentPlayer = 'X';
-        }
-    }
-}
+				// Converting rupees to dollars 
+				double d1 = (d / 65.25); 
+
+				// Getting the string value of the 
+				// calculated value 
+				String str1 = String.valueOf(d1); 
+
+				// Placing it in the text box 
+				t2.setText(str1); 
+			} 
+		}); 
+
+		// Adding action listener 
+		b2.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) 
+			{ 
+				// Converting to double 
+				double d2 
+					= Double.parseDouble(t2.getText()); 
+
+				// converting Dollars to rupees 
+				double d3 = (d2 * 65.25); 
+
+				// Getting the string value of the 
+				// calculated value 
+				String str2 = String.valueOf(d3); 
+
+				// Placing it in the text box 
+				t1.setText(str2); 
+			} 
+		}); 
+
+		// Action listener to close the form 
+		b3.addActionListener(new ActionListener() { 
+			public void actionPerformed(ActionEvent e) 
+			{ 
+				f.dispose(); 
+			} 
+		}); 
+
+		// Default method for closing the frame 
+		f.addWindowListener(new WindowAdapter() { 
+			public void windowClosing(WindowEvent e) 
+			{ 
+				System.exit(0); 
+			} 
+		}); 
+
+		// Adding the created objects 
+		// to the form 
+		f.add(l1); 
+		f.add(t1); 
+		f.add(l2); 
+		f.add(t2); 
+		f.add(b1); 
+		f.add(b2); 
+		f.add(b3); 
+
+		f.setLayout(null); 
+		f.setSize(400, 300); 
+		f.setVisible(true); 
+	}
 ```
+
+	// Driver code 
+	public static void main(String args[]) 
+	{ 
+		converter(); 
+	} 
+} 
